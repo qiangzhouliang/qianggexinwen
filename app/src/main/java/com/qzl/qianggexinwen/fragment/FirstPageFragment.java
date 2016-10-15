@@ -82,7 +82,9 @@ public class FirstPageFragment extends Fragment implements JsonUtils.CallBackLis
                         @Override
                         public void run() {
                             now_num += LOADNUM;
-                            initData();
+                            if (now_num <= 100) {
+                                initData();
+                            }
                         }
                     }, 1000);
                 }
@@ -122,12 +124,13 @@ public class FirstPageFragment extends Fragment implements JsonUtils.CallBackLis
     //分配数据，填充布局
     private void initData() {
         if (msg_list != null) {
+            List<Data> data = msg_list[mPosition];
+            mAdapter.setData_count(data.size());
             String[] img = new String[3];
             String[] title = new String[3];
             String[] toUrl = new String[3];
             item_list.clear();//清空当前有的数据
 
-            List<Data> data = msg_list[mPosition];
             for (int i = 0; i < 3; i++) {
                 img[i] = data.get(i).getThumbnail();
                 title[i] = data.get(i).getTitle();
@@ -165,7 +168,9 @@ public class FirstPageFragment extends Fragment implements JsonUtils.CallBackLis
     @Override
     public void onRefresh() {
         now_num += LOADNUM; //刷新操作执行后，多显示几条数据
-        initData();
+        if (now_num <= 100) {
+            initData();
+        }
         mSwip.setRefreshing(false);//设置组件的刷新状太
     }
 

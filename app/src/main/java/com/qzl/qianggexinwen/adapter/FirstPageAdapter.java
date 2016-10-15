@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -27,6 +28,7 @@ public class FirstPageAdapter extends RecyclerView.Adapter {
     private final int TYPE_NORMAL = 1; //表示正常的 item 布局
     private final int TYPE_FOOT = 2; //表示刷新布局
 
+    private int data_count;//记录一共有多少条数据
     private Context mContext;
     private List<Data> item_data;//轮播图片的路径
     private BannerBean mBannerBean;
@@ -79,6 +81,10 @@ public class FirstPageAdapter extends RecyclerView.Adapter {
             //判断有数据时，在显示底部加载布局
             if (item_data.size() > 0) {
                 footViewHolder.progress_lin.setVisibility(View.VISIBLE);
+                if (position+2 == data_count) {
+                    footViewHolder.mProgressBar.setVisibility(View.GONE);
+                    footViewHolder.text_loading.setText("没有更多数据了...");
+                }
             }
         }
     }
@@ -132,10 +138,15 @@ public class FirstPageAdapter extends RecyclerView.Adapter {
     //底部刷新的视图
     class FootViewHolder extends RecyclerView.ViewHolder {
         LinearLayout progress_lin;
+        ProgressBar mProgressBar;
+        TextView text_loading;
 
         public FootViewHolder(View itemView) {
             super(itemView);
             progress_lin = (LinearLayout) itemView.findViewById(R.id.progress_lin);
+            mProgressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
+            text_loading = (TextView) itemView.findViewById(R.id.text_loading);
+
         }
     }
 
@@ -149,5 +160,10 @@ public class FirstPageAdapter extends RecyclerView.Adapter {
 
     public void setMyItemClickListener(MyItemClickListener listener) {
         mListener = listener;
+    }
+
+    //记录总数据条数，用来判断何时显示底部没有更多数据了
+    public void setData_count(int count) {
+        this.data_count = count;
     }
 }
