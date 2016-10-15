@@ -82,7 +82,7 @@ public class FirstPageFragment extends Fragment implements JsonUtils.CallBackLis
                         @Override
                         public void run() {
                             now_num += LOADNUM;
-                            if (now_num <= 100) {
+                            if (now_num <= msg_list[mPosition].size()) {
                                 initData();
                             }
                         }
@@ -168,7 +168,7 @@ public class FirstPageFragment extends Fragment implements JsonUtils.CallBackLis
     @Override
     public void onRefresh() {
         now_num += LOADNUM; //刷新操作执行后，多显示几条数据
-        if (now_num <= 100) {
+        if (now_num <= msg_list[mPosition].size()) {
             initData();
         }
         mSwip.setRefreshing(false);//设置组件的刷新状太
